@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Kantumruy+Pro:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Kantumruy Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-khmer: "Kantumruy Pro", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-brand-blue: #2552E5;
+  --color-brand-blue-hover: #1E44BE;
+  --color-brand-light: #ECF1FE;
+  --color-brand-gold: #D4AF37;
+  --color-telegram: #2AABEE;
+}
