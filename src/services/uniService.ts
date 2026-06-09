@@ -1,5 +1,6 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../lib/firebase";
+import { MOCK_UNIVERSITIES } from "../data";
 
 export interface UniversityData {
   id: string;
@@ -19,6 +20,10 @@ export interface UniversityData {
 
 export const fetchUniversitiesFromDB = async (): Promise<UniversityData[]> => {
   try {
+    if (!db) {
+       console.warn("Firestore not initialized, returning mock data");
+       return MOCK_UNIVERSITIES as UniversityData[];
+    }
     const querySnapshot = await getDocs(collection(db, "universities"));
     const universities: UniversityData[] = [];
     
@@ -31,9 +36,12 @@ export const fetchUniversitiesFromDB = async (): Promise<UniversityData[]> => {
       } as UniversityData);
     });
     
+    if (universities.length === 0) {
+      return MOCK_UNIVERSITIES as UniversityData[];
+    }
     return universities;
   } catch (error) {
     console.error("Error fetching universities from Firestore:", error);
-    return []; // fallback string array or handle error appropriately
+    return MOCK_UNIVERSITIES as UniversityData[]; // fallback string array or handle error appropriately
   }
 };
