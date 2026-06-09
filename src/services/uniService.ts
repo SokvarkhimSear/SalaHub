@@ -60,7 +60,7 @@ export const fetchUniversitiesFromDB = async (): Promise<UniversityData[]> => {
 
 export const updateUniversityInDB = async (id: string, data: Partial<UniversityData>): Promise<void> => {
   if (!db) throw new Error("Firestore not initialized");
-  await updateDoc(doc(db, "universities", id), data);
+  await setDoc(doc(db, "universities", id), data, { merge: true });
 };
 
 export const addUniversityToDB = async (id: string, data: UniversityData): Promise<void> => {
