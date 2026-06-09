@@ -23,7 +23,7 @@ export const t = {
     clear_filters: "Clear all filters",
     back_to_search: "Back to Search",
     university_not_found: "University Not Found",
-    majors_and_fees: "Popular Majors & Annual Fees",
+    majors_and_fees: "Available Majors",
     community_hub: "Student Community Hub",
     community_desc: "Have questions about this campus? Connect with current Year 3/4 seniors and alumni from this school inside our dedicated Telegram community forum."
   },
@@ -49,7 +49,7 @@ export const t = {
     clear_filters: "Clear filters",
     back_to_search: "Back to Search",
     university_not_found: "University Not Found",
-    majors_and_fees: "Popular Majors & Annual Fees",
+    majors_and_fees: "Available Majors",
     community_hub: "Student Community Hub",
     community_desc: "Have questions about this campus? Connect with current Year 3/4 seniors and alumni from this school inside our dedicated Telegram community forum."
   }

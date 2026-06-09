@@ -287,10 +287,8 @@ export default function UniversityProfile() {
                 ></div>
                 About {university.name_en}
               </h2>
-              <p className="text-slate-600 leading-relaxed text-lg mb-0">
-                {university.name_en} is one of the leading higher education institutions in Cambodia. 
-                Dedicated to academic excellence, it provides students with modern facilities, experienced faculty, 
-                and comprehensive programs designed to prepare graduates for successful careers and global opportunities.
+              <p className="text-slate-600 leading-relaxed text-lg mb-0 whitespace-pre-wrap">
+                {university.aboutInfo || `${university.name_en} is one of the leading higher education institutions in Cambodia. Dedicated to academic excellence, it provides students with modern facilities, experienced faculty, and comprehensive programs designed to prepare graduates for successful careers and global opportunities.`}
               </p>
             </section>
 
@@ -318,13 +316,7 @@ export default function UniversityProfile() {
                       className="major-card group flex flex-col p-6 rounded-2xl border-2 border-slate-100 bg-slate-50/50 hover:bg-white transition-all duration-300"
                       style={{ '--hover-border-color': uPrimary } as React.CSSProperties}
                     >
-                      <span className="text-slate-900 font-bold text-lg mb-2 group-hover:text-slate-800">{major.name}</span>
-                      <span 
-                        className="font-semibold text-sm mt-auto"
-                        style={{ color: uPrimary }}
-                      >
-                        {major.fee} / year
-                      </span>
+                      <span className="text-slate-900 font-bold text-lg group-hover:text-slate-800">{major.name}</span>
                     </div>
                   );
                 })}
@@ -349,8 +341,8 @@ export default function UniversityProfile() {
                   </div>
                   <h3 className="text-lg font-bold text-slate-900">Scholarships Available</h3>
                 </div>
-                <p className="text-sm text-slate-600 mb-0">
-                  Contact the university admissions office to learn about current financial aid and scholarship programs.
+                <p className="text-sm text-slate-600 mb-0 whitespace-pre-wrap">
+                  {university.scholarshipsInfo || "Contact the university admissions office to learn about current financial aid and scholarship programs."}
                 </p>
               </div>
 
@@ -393,43 +385,47 @@ export default function UniversityProfile() {
                     <span className="text-label font-bold text-slate-700 transition-colors">Telegram Group</span>
                   </a>
 
-                  <a 
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="channel-link flex items-center gap-4 w-full p-4 rounded-2xl border border-slate-100 transition-all hover:shadow-md"
-                    style={{ '--hover-bg': COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a' } as React.CSSProperties}
-                  >
-                    <div 
-                      className="icon-box w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors"
-                      style={{ 
-                        backgroundColor: `${COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a'}1A`,
-                        color: COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a'
-                      }}
+                  {university.websiteUrl && (
+                    <a 
+                      href={university.websiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="channel-link flex items-center gap-4 w-full p-4 rounded-2xl border border-slate-100 transition-all hover:shadow-md"
+                      style={{ '--hover-bg': COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a' } as React.CSSProperties}
                     >
-                      <Globe className="w-5 h-5" />
-                    </div>
-                    <span className="text-label font-bold text-slate-700 transition-colors">Official Website</span>
-                  </a>
+                      <div 
+                        className="icon-box w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors"
+                        style={{ 
+                          backgroundColor: `${COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a'}1A`,
+                          color: COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a'
+                        }}
+                      >
+                        <Globe className="w-5 h-5" />
+                      </div>
+                      <span className="text-label font-bold text-slate-700 transition-colors">Official Website</span>
+                    </a>
+                  )}
 
-                  <a 
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="channel-link flex items-center gap-4 w-full p-4 rounded-2xl border border-slate-100 transition-all hover:shadow-md"
-                    style={{ '--hover-bg': COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a' } as React.CSSProperties}
-                  >
-                    <div 
-                      className="icon-box w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors"
-                      style={{ 
-                        backgroundColor: `${COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a'}1A`,
-                        color: COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a'
-                      }}
+                  {university.facebookUrl && (
+                    <a 
+                      href={university.facebookUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="channel-link flex items-center gap-4 w-full p-4 rounded-2xl border border-slate-100 transition-all hover:shadow-md"
+                      style={{ '--hover-bg': COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a' } as React.CSSProperties}
                     >
-                      <Facebook className="w-5 h-5" />
-                    </div>
-                    <span className="text-label font-bold text-slate-700 transition-colors">Facebook Page</span>
-                  </a>
+                      <div 
+                        className="icon-box w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors"
+                        style={{ 
+                          backgroundColor: `${COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a'}1A`,
+                          color: COLOR_MAP[university.id]?.primary || university.primaryColor || '#0f172a'
+                        }}
+                      >
+                        <Facebook className="w-5 h-5" />
+                      </div>
+                      <span className="text-label font-bold text-slate-700 transition-colors">Facebook Page</span>
+                    </a>
+                  )}
                 </div>
               </div>
 

@@ -16,40 +16,14 @@ export interface UniversityData {
   accentColor?: string;
   logoUrl?: string;
   bannerUrl?: string;
+  aboutInfo?: string;
+  scholarshipsInfo?: string;
+  websiteUrl?: string;
+  facebookUrl?: string;
 }
 
 export const fetchUniversitiesFromDB = async (): Promise<UniversityData[]> => {
-  try {
-    if (!db) {
-       console.warn("Firestore not initialized, returning mock data");
-       return MOCK_UNIVERSITIES as UniversityData[];
-    }
-    
-    // Add a timeout to prevent hanging if Firebase is misconfigured but doesn't throw
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error("Firestore request timed out")), 800)
-    );
-    
-    const querySnapshot: any = await Promise.race([
-      getDocs(collection(db, "universities")),
-      timeoutPromise
-    ]);
-    
-    const universities: UniversityData[] = [];
-    
-    querySnapshot.forEach((doc: any) => {
-      universities.push({
-        id: doc.id,
-        ...doc.data()
-      } as UniversityData);
-    });
-    
-    if (universities.length === 0) {
-      return MOCK_UNIVERSITIES as UniversityData[];
-    }
-    return universities;
-  } catch (error) {
-    console.error("Error fetching universities from Firestore:", error);
-    return MOCK_UNIVERSITIES as UniversityData[]; // fallback string array or handle error appropriately
-  }
+  // Directly return mock data for now to prevent loading delays
+  // since Firebase is not yet fully configured with valid project credentials.
+  return Promise.resolve(MOCK_UNIVERSITIES as UniversityData[]);
 };
