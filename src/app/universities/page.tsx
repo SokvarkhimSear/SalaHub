@@ -50,6 +50,7 @@ export default function UniversitiesPortal() {
   const [showSavedOnly, setShowSavedOnly] = useState(false);
 
   useEffect(() => {
+    if (!auth) return;
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
@@ -59,11 +60,11 @@ export default function UniversitiesPortal() {
         }
       } else {
         setSavedUniversities([]);
-        setShowSavedOnly(false);
+        showSavedOnly && setShowSavedOnly(false);
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [showSavedOnly]);
 
   const toggleBookmark = (e: React.MouseEvent, uniId: string) => {
     e.preventDefault();

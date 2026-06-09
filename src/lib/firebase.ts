@@ -15,12 +15,14 @@ let app: any = null;
 let db: Firestore | null = null;
 let auth: Auth | null = null;
 
-if (typeof window !== 'undefined' || firebaseConfig.apiKey) {
+if (firebaseConfig.apiKey) {
+  if (typeof window !== 'undefined' || getApps().length === 0) {
     app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-    if (firebaseConfig.apiKey) {
-      db = getFirestore(app);
-      auth = getAuth(app);
-    }
+    db = getFirestore(app);
+    auth = getAuth(app);
+  }
+} else {
+  console.warn("Firebase config is missing. Authentication and database will not work.");
 }
 
 export { app, db, auth };
