@@ -15,14 +15,18 @@ let app: any = null;
 let db: Firestore | null = null;
 let auth: Auth | null = null;
 
-if (firebaseConfig.apiKey) {
-  if (typeof window !== 'undefined' || getApps().length === 0) {
-    app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-    db = getFirestore(app);
-    auth = getAuth(app);
+try {
+  if (firebaseConfig.apiKey) {
+    if (typeof window !== 'undefined' || getApps().length === 0) {
+      app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      auth = getAuth(app);
+    }
+  } else {
+    console.warn("Firebase config is missing. Authentication and database will not work.");
   }
-} else {
-  console.warn("Firebase config is missing. Authentication and database will not work.");
+} catch (error) {
+  console.error("Firebase initialization failed:", error);
 }
 
 export { app, db, auth };

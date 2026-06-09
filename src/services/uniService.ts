@@ -24,12 +24,20 @@ export const fetchUniversitiesFromDB = async (): Promise<UniversityData[]> => {
        console.warn("Firestore not initialized, returning mock data");
        return MOCK_UNIVERSITIES as UniversityData[];
     }
-    const querySnapshot = await getDocs(collection(db, "universities"));
+    
+    // Add a timeout to prevent hanging if Firebase is misconfigured but doesn't throw
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error("Firestore request timed out")), 800)
+    );
+    
+    const querySnapshot: any = await Promise.race([
+      getDocs(collection(db, "universities")),
+      timeoutPromise
+    ]);
+    
     const universities: UniversityData[] = [];
     
-    querySnapshot.forEach((doc) => {
-      // We expect the document ID to be the university id or include it in data
-      // For fallback we can add id: doc.id if it's missing.
+    querySnapshot.forEach((doc: any) => {
       universities.push({
         id: doc.id,
         ...doc.data()
