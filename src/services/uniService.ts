@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { MOCK_UNIVERSITIES } from "../data";
 
@@ -23,7 +23,48 @@ export interface UniversityData {
 }
 
 export const fetchUniversitiesFromDB = async (): Promise<UniversityData[]> => {
-  // Directly return mock data for now to prevent loading delays
-  // since Firebase is not yet fully configured with valid project credentials.
-  return Promise.resolve(MOCK_UNIVERSITIES as UniversityData[]);
+  try {
+    if (!db) {
+       console.warn("Firestore not initialized, returning mock data");
+       return MOCK_UNIVERSITIES as unknown as UniversityData[];
+    }
+    
+    // Quick timeout for Firestore
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error("Firestore request timed out")), 2000)
+    );
+    
+    const querySnapshot: any = await Promise.race([
+      getDocs(collection(db, "universities")),
+      timeoutPromise
+    ]);
+    
+    const universities: UniversityData[] = [];
+    
+    querySnapshot.forEach((doc: any) => {
+      universities.push({
+        id: doc.id,
+        ...doc.data()
+      } as UniversityData);
+    });
+    
+    if (universities.length === 0) {
+      return MOCK_UNIVERSITIES as unknown as UniversityData[];
+    }
+    return universities;
+  } catch (error) {
+    console.error("Error fetching from DB, using mock:", error);
+    return MOCK_UNIVERSITIES as unknown as UniversityData[];
+  }
 };
+
+export const updateUniversityInDB = async (id: string, data: Partial<UniversityData>): Promise<void> => {
+  if (!db) throw new Error("Firestore not initialized");
+  await updateDoc(doc(db, "universities", id), data);
+};
+
+export const addUniversityToDB = async (id: string, data: UniversityData): Promise<void> => {
+  if (!db) throw new Error("Firestore not initialized");
+  await setDoc(doc(db, "universities", id), data);
+};
+
